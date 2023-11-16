@@ -21,18 +21,12 @@ def rotate_2d_matrix(matrix):
         None
     """
     n = len(matrix)
-    for i in range(n // 2):
-        for j in range(i, n - i - 1):
-            temp = matrix[i][j]
-            matrix[i][j] = matrix[n - 1 - j][i]
-            matrix[n - 1 - j][i] = matrix[n - 1 - i][n - 1 - j]
-            matrix[n - 1 - i][n - 1 - j] = temp
-
-
-if __name__ == "__main__":
-    matrix = [[1, 2, 3],
-              [4, 5, 6],
-              [7, 8, 9]]
-
-    rotate_2d_matrix(matrix)
-    print(matrix)
+    for layer in range(n // 2):
+        first, last, offset = layer, n - 1 - layer, 0
+        for i in range(first, last):
+            top = matrix[first][i]
+            matrix[first][i] = matrix[last - offset][first]
+            matrix[last - offset][first] = matrix[last][last - offset]
+            matrix[last][last - offset] = matrix[i][last]
+            matrix[i][last] = top
+            offset += 1
